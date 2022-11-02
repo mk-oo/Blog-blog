@@ -1,14 +1,20 @@
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
-    const facebook = "https://www.facebook.com/";
-    const gmail = "https://mail.google.com/mail/u/0/";
-    const google = "https://www.google.com/"
+    const home = "/";
+    const contact = "/contact";
+    const about = "/about";
+
     return ( 
         <nav className="navbar">
             <h1>Mk Blog</h1>
             <div className="content">
-                <a href={facebook}>facebook</a>
-                <a href={gmail}>gmail</a>
-                <a href={google}>google</a>
+
+                {/* Router Link To not request a new page every time */}
+                
+                <Link to={home}>Home</Link>
+                <Link to={contact}>Contact Us</Link>
+                <Link to={about}>About Me</Link>
             </div>
         </nav>
      );
