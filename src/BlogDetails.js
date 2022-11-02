@@ -1,11 +1,30 @@
 import { useParams } from "react-router-dom";
-import useFetch from "./useFetch";
+import {useNavigate} from 'react-router-dom';
+import API from "./CRUD_API/API";
 
 const BlogDetails = () => {
 
     const { id } = useParams();
-    const {blogs : blog , isLoading, error} = useFetch('http://localhost:8000/blogs/' + id )
+    const {blogs : blog , isLoading, error} = API('http://localhost:8000/blogs/' + id , 'GET')
+    const navigate = useNavigate();
 
+    const handleDelete = () => {
+
+        if (window.confirm('Are you sure you want to delete this blog?')) {
+
+            const deletBlog = API('http://localhost:8000/blogs/', 'DELETE', blog.id);
+            
+            deletBlog.then(res =>{
+                if (res.status === 200) {
+                    
+                    console.log('Blog deleted');
+
+                    navigate('/')
+                }                
+
+            })
+        }
+    }
     return ( 
         <div className="Blog-Detailes">
   
@@ -13,7 +32,7 @@ const BlogDetails = () => {
 
             {isLoading && <div>loading .... </div> }
 
-            {blog && 
+        {blog && 
                 <article>
                         <h2 className="Blog-Title">
                             {blog.title}
@@ -25,6 +44,8 @@ const BlogDetails = () => {
 
                 </article>
             }
+            <br />
+            <button className="delete-blog" onClick={handleDelete}>Delete Blog</button>
         </div>
      );
 }
